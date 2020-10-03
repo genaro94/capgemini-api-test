@@ -24,7 +24,7 @@ class User extends Authenticatable
     const SUPPORT       = 4;
 
     protected $fillable = [
-        'name', 'email', 'password', 'profile_id', 'cpf'
+        'name', 'email', 'password', 'profile_id', 'cpf', 'phone'
     ];
 
     protected $hidden = [
@@ -35,8 +35,42 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+    /**
+    * relations
+    */
     public function accounts()
     {
         return $this->hasMany(Account::class);
+    }
+
+    /**
+    * acessors
+    */
+    public function getCpfAttribute($value)
+    {
+        return substr($value, 0, 3).'.'.substr($value, 3, 3).'.'.substr($value, 6, 3).'-'.substr($value, 8, 2);
+    }
+
+    public function getPhoneAttribute($value)
+    {
+        return '('.substr($value, 0, 2).') '.substr($value, 2, 5).'-'.substr($value, 7, 4);
+    }
+
+    /**
+     * mutators
+    */
+    public function setPasswordAttribute($value)
+    {
+        $this->attributes['password'] = bcrypt($value);
+    }
+
+    public function setCpfAttribute($value)
+    {
+        $this->attributes['cpf'] = preg_replace("/[^0-9]/","", $value);
+    }
+
+    public function setPhoneAttribute($value)
+    {
+        $this->attributes['phone'] = preg_replace("/[^0-9]/","", $value);
     }
 }
