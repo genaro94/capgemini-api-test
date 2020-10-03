@@ -23,6 +23,9 @@ class Account extends Model
         'user_id', 'type', 'number', 'agency', 'value'
     ];
 
+    /**
+    * relations
+    */
     public function user()
     {
         return $this->belongsTo(User::class);
@@ -31,5 +34,32 @@ class Account extends Model
     public function accountHistories()
     {
         return $this->hasMany(accountHistory::class);
+    }
+
+    /**
+    * acessors
+    */
+    public function getNumberAttribute()
+    {
+        return substr($this->number, 0, 2).'.'.substr($this->number, 2, 3)
+               .'-'.substr($this->number, 5, 1);
+    }
+
+    public function getAgencyAttribute()
+    {
+        return substr($this->agency, 0, 4).'-'.substr($this->agency, 4, 1);
+    }
+
+    /**
+    * mutators
+    */
+    public function setNumberAttribute($value)
+    {
+        $this->attributes['number'] = preg_replace("/[^0-9]/","", $value);
+    }
+
+    public function setAgencyAttribute($value)
+    {
+        $this->attributes['agency'] = preg_replace("/[^0-9]/","", $value);
     }
 }

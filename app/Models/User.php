@@ -46,14 +46,16 @@ class User extends Authenticatable
     /**
     * acessors
     */
-    public function getCpfAttribute($value)
+    public function getCpfAttribute()
     {
-        return substr($value, 0, 3).'.'.substr($value, 3, 3).'.'.substr($value, 6, 3).'-'.substr($value, 8, 2);
+        return substr($this->cpf, 0, 3).'.'.substr($this->cpf, 3, 3).'.'.
+               substr($this->cpf, 6, 3).'-'.substr($this->cpf, 8, 2);
     }
 
-    public function getPhoneAttribute($value)
+    public function getPhoneAttribute()
     {
-        return '('.substr($value, 0, 2).') '.substr($value, 2, 5).'-'.substr($value, 7, 4);
+        return '('.substr($this->phone, 0, 2).') '.
+                substr($this->phone, 2, 5).'-'.substr($this->phone, 7, 4);
     }
 
     /**
