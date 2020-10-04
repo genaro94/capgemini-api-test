@@ -6,5 +6,5 @@ Route::namespace('Api')->prefix('account')->group(function () {
 });
 
 Route::namespace('Api')->middleware(['jwt.aut'])->group(function () {
-    Route::get('balances', 'BalanceController@index');
+    Route::get('balances', 'AccountController@balance');
 });
