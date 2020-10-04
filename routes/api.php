@@ -1,6 +1,10 @@
 <?php
 
-Route::group(['prefix' => 'account', 'namespace' => 'Api\\'], function () {
+Route::namespace('Api')->prefix('account')->group(function () {
     Route::post('login', 'AuthController@login');
     Route::post('logout', 'AuthController@logout');
+});
+
+Route::namespace('Api')->middleware(['jwt.aut'])->group(function () {
+    Route::get('balances', 'BalanceController@index');
 });
