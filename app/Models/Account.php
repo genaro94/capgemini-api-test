@@ -39,15 +39,15 @@ class Account extends Model
     /**
     * acessors
     */
-    public function getNumberAttribute()
+    public function getNumberAttribute($value)
     {
-        return substr($this->number, 0, 2).'.'.substr($this->number, 2, 3)
-               .'-'.substr($this->number, 5, 1);
+        return substr($value, 0, 2).'.'.substr($value, 2, 3)
+               .'-'.substr($value, 5, 1);
     }
 
-    public function getAgencyAttribute()
+    public function getAgencyAttribute($value)
     {
-        return substr($this->agency, 0, 4).'-'.substr($this->agency, 4, 1);
+        return substr($value, 0, 4).'-'.substr($value, 4, 1);
     }
 
     /**

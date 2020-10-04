@@ -67,16 +67,16 @@ class User extends Authenticatable implements JWTSubject
     /**
     * acessors
     */
-    public function getCpfAttribute()
+    public function getCpfAttribute($value)
     {
-        return substr($this->cpf, 0, 3).'.'.substr($this->cpf, 3, 3).'.'.
-               substr($this->cpf, 6, 3).'-'.substr($this->cpf, 8, 2);
+        return substr($value, 0, 3).'.'.substr($value, 3, 3).'.'.
+               substr($value, 6, 3).'-'.substr($value, 8, 2);
     }
 
-    public function getPhoneAttribute()
+    public function getPhoneAttribute($value)
     {
-        return '('.substr($this->phone, 0, 2).') '.
-                substr($this->phone, 2, 5).'-'.substr($this->phone, 7, 4);
+        return '('.substr($value, 0, 2).') '.
+                substr($value, 2, 5).'-'.substr($value, 7, 4);
     }
 
     /**
@@ -95,5 +95,18 @@ class User extends Authenticatable implements JWTSubject
     public function setPhoneAttribute($value)
     {
         $this->attributes['phone'] = preg_replace("/[^0-9]/","", $value);
+    }
+
+    /**
+    *  functions
+    */
+    public function getTotalBalanceAccount()
+    {
+        return  moneyFormat( $this->accounts()
+                                  ->where('type', Account::SAVINGS)
+                                  ->pluck('value')
+                                  ->sum(),
+                                true
+                            );
     }
 }

@@ -4,8 +4,10 @@ namespace Tests\Feature\Auth;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
-use Tests\TestCase;
+use Tymon\JWTAuth\Facades\JWTAuth;
+use App\Services\Message;
 use App\Models\User;
+use Tests\TestCase;
 
 class AuthTest extends TestCase
 {
@@ -25,7 +27,11 @@ class AuthTest extends TestCase
         $this->post('/api/account/login', [
             'email'    => $user->email,
             'password' => 'secret'
-        ])->assertStatus(200);
+        ])
+        ->assertStatus(200)
+        ->assertJsonStructure([
+            'token', 'status'
+        ]);
     }
 
     public function test_should_return_email_error()
@@ -64,5 +70,16 @@ class AuthTest extends TestCase
 
         $erroPassword = $response->decodeResponseJson()['message'];
         $this->assertEquals($erroPassword, 'E-mail e/ou senha incorretos.');
+    }
+
+    public function test_logout()
+    {
+        $user     = User::first();
+        $token    = JWTAuth::fromUser($user);
+
+        $response = $this->post('/api/account/logout?token='.$token, [])
+                         ->assertStatus(200);
+
+        $this->assertEquals($response['message'], Message::logoutAccount());
     }
 }
