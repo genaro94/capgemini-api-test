@@ -32,35 +32,25 @@ class Account extends Model
     }
 
     /**
-    * acessors
+    * functions
     */
-    public function getNumberAttribute($value)
+    public function scopeSearchForAccountData($query)
     {
-        return substr($value, 0, 2).'.'.substr($value, 2, 3)
-               .'-'.substr($value, 5, 1);
+        return $query->where('number', request()->get('number'))
+                     ->where('agency', request()->get('agency'));
     }
 
-    public function getAgencyAttribute($value)
+    public function scopeGetNameFromUser($query)
     {
-        return substr($value, 0, 4).'-'.substr($value, 4, 1);
+        return $query->whereHas('user', function($query){
+                return $query->where('name', 'LIKE', '%'.request()->get('name').'%');
+            });
     }
 
-    /**
-    * mutators
-    */
-    public function setNumberAttribute($value)
+    public function scopeGetCpfFromUser($query)
     {
-        $this->attributes['number'] = preg_replace("/[^0-9]/","", $value);
-    }
-
-    public function setAgencyAttribute($value)
-    {
-        $this->attributes['agency'] = preg_replace("/[^0-9]/","", $value);
-    }
-
-    public function setValueAttribute($value)
-    {
-        $this->attributes['value'] = str_replace("R$ ", "",
-                str_replace(".", "", str_replace(",", ".", $value)));
+        return $query->whereHas('user', function($query){
+            return $query->where('cpf', request()->get('cpf'));
+        });
     }
 }

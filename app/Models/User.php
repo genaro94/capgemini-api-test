@@ -65,36 +65,11 @@ class User extends Authenticatable implements JWTSubject
     }
 
     /**
-    * acessors
-    */
-    public function getCpfAttribute($value)
-    {
-        return substr($value, 0, 3).'.'.substr($value, 3, 3).'.'.
-               substr($value, 6, 3).'-'.substr($value, 8, 2);
-    }
-
-    public function getPhoneAttribute($value)
-    {
-        return '('.substr($value, 0, 2).') '.
-                substr($value, 2, 5).'-'.substr($value, 7, 4);
-    }
-
-    /**
      * mutators
     */
     public function setPasswordAttribute($value)
     {
         $this->attributes['password'] = bcrypt($value);
-    }
-
-    public function setCpfAttribute($value)
-    {
-        $this->attributes['cpf'] = preg_replace("/[^0-9]/","", $value);
-    }
-
-    public function setPhoneAttribute($value)
-    {
-        $this->attributes['phone'] = preg_replace("/[^0-9]/","", $value);
     }
 
     /**
