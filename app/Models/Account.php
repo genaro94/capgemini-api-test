@@ -62,4 +62,10 @@ class Account extends Model
     {
         $this->attributes['agency'] = preg_replace("/[^0-9]/","", $value);
     }
+
+    public function setValueAttribute($value)
+    {
+        $this->attributes['value'] = str_replace("R$ ", "",
+                str_replace(".", "", str_replace(",", ".", $value)));
+    }
 }

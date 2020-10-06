@@ -28,11 +28,15 @@ class Message {
         return 'E-mail e/ou senha incorretos.';
     }
 
-    public static function failedCreateProduct() {
-        return 'Erro ao tentar cadastrar o produto.';
+    public static function failedWithdraw(){
+        return 'Ocorreu erro ao tentar realizar o saque.';
     }
 
-    public static function successCreateProduct() {
-        return 'Produto cadastrado com sucesso.';
+    public static function successWithdraw(){
+        return 'Sucesso ao realizar o saque.';
+    }
+
+    public static function insufficientAmountForWithdraw(){
+        return 'O valor do saque é maior que o saldo disponível.';
     }
 }
