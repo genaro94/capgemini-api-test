@@ -43,4 +43,37 @@ class AccountController extends Controller
             return response()->json(['message' => Message::failedWithdraw()], 500);
         }
     }
+
+    public function deposit()
+    {
+        $validator = Validator::make(request()->all(), [
+            'agency'       => ['required', 'integer'],
+            'number'       => ['required', 'integer'],
+            'name'         => ['required', 'string'],
+            'cpf'          => ['required', 'integer'],
+            'value'        => ['required', 'integer'],
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['message' => $validator->errors()], 400);
+        }
+
+        $account = Account::searchForAccountData()->getNameFromUser()->getCpfFromUser()->first();
+
+        if(!$account)
+        {
+            return response()->json(['message' => Message::nonAccountExist()], 400);
+        }
+
+        try
+        {
+            $account->increment('value', request()->value);
+            return response()->json(['message' => Message::successDeposit()], 200);
+        }
+
+        catch(Exception $error)
+        {
+            return response()->json(['message' => Message::failedDeposit()], 500);
+        }
+    }
 }
