@@ -31,11 +31,6 @@ class Account extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function accountHistories()
-    {
-        return $this->hasMany(accountHistory::class);
-    }
-
     /**
     * acessors
     */
@@ -61,5 +56,11 @@ class Account extends Model
     public function setAgencyAttribute($value)
     {
         $this->attributes['agency'] = preg_replace("/[^0-9]/","", $value);
+    }
+
+    public function setValueAttribute($value)
+    {
+        $this->attributes['value'] = str_replace("R$ ", "",
+                str_replace(".", "", str_replace(",", ".", $value)));
     }
 }

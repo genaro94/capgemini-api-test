@@ -29,9 +29,7 @@ class AuthTest extends TestCase
             'password' => 'secret'
         ])
         ->assertStatus(200)
-        ->assertJsonStructure([
-            'token', 'status'
-        ]);
+        ->assertJsonStructure(['token']);
     }
 
     public function test_should_return_email_error()
@@ -82,4 +80,5 @@ class AuthTest extends TestCase
 
         $this->assertEquals($response['message'], Message::logoutAccount());
     }
+
 }

@@ -16,30 +16,23 @@ class AuthController extends Controller
             'password'           => 'required|string',
         ]);
 
-        if ($validator->fails()) {
-            return response()->json(['message' => $validator->errors(), 'status' => 400], 400);
+        if ($validator->fails())
+        {
+            return response()->json(['message' => $validator->errors()], 400);
         }
 
-        if (!$token  = auth('api')->attempt(request()->all())) {
-            return response()->json([
-                'status'  => 401,
-                'message' => Message::invalidAccess()
-            ], 401);
+        if (!$token  = auth('api')->attempt(request()->all()))
+        {
+            return response()->json(['message' => Message::invalidAccess()], 401);
         }
 
-        return response()->json([
-            'status' => 200,
-            'token'  => $token
-        ], 200);
+        return response()->json(['token'  => $token], 200);
     }
 
     public function logout(){
 
         auth('api')->invalidate(true);
 
-        return response()->json([
-            'status'    => 200,
-            'message'   => Message::logoutAccount()
-        ], 200);
+        return response()->json(['message' => Message::logoutAccount()], 200);
     }
 }
