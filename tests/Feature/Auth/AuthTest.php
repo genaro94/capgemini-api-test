@@ -29,9 +29,7 @@ class AuthTest extends TestCase
             'password' => 'secret'
         ])
         ->assertStatus(200)
-        ->assertJsonStructure([
-            'token', 'status'
-        ]);
+        ->assertJsonStructure(['token']);
     }
 
     public function test_should_return_email_error()
@@ -78,6 +76,9 @@ class AuthTest extends TestCase
         $token    = JWTAuth::fromUser($user);
 
         $response = $this->post('/api/account/logout?token='.$token, [])
-                         ->assertSessionHasErrors(['value']);
+                         ->assertStatus(200);
+
+        $this->assertEquals($response['message'], Message::logoutAccount());
     }
+
 }

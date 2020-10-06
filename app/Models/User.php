@@ -102,11 +102,8 @@ class User extends Authenticatable implements JWTSubject
     */
     public function getTotalBalanceAccount()
     {
-        return  moneyFormat( $this->accounts()
-                                  ->where('type', Account::SAVINGS)
-                                  ->pluck('value')
-                                  ->sum(),
-                                true
-                            );
+        return $this->accounts()->where('type', Account::SAVINGS)
+                                ->pluck('value')
+                                ->sum();
     }
 }

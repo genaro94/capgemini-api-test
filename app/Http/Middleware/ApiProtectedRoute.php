@@ -17,16 +17,16 @@ class ApiProtectedRoute extends BaseMiddleware
         } catch (\Exception $exception) {
 
             if ($exception instanceof \Tymon\JWTAuth\Exceptions\TokenExpiredException) {
-                return response()->json(['message' => Message::tokenExpiredException(), 'status' => 400], 400);
+                return response()->json(['message' => Message::tokenExpiredException()], 400);
 
             } else if ($exception instanceof \Tymon\JWTAuth\Exceptions\TokenInvalidException) {
-                return response()->json(['message' => Message::tokenInvalidException(), 'status' => 400], 400);
+                return response()->json(['message' => Message::tokenInvalidException()], 400);
 
             } else if ($exception instanceof \Tymon\JWTAuth\Exceptions\JWTException) {
-                return response()->json(['message' => Message::jwtException(), 'status' => 400], 400);
+                return response()->json(['message' => Message::jwtException()], 400);
 
             } else if ($exception instanceof \Tymon\JWTAuth\Exceptions\BlacklistedException) {
-                return response()->json(['message' => Message::blacklistedException(), 'status' => 400], 400);
+                return response()->json(['message' => Message::blacklistedException()], 400);
             }
         }
         return $next($request);

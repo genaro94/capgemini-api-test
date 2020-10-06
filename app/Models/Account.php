@@ -31,11 +31,6 @@ class Account extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function accountHistories()
-    {
-        return $this->hasMany(accountHistory::class);
-    }
-
     /**
     * acessors
     */

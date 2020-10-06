@@ -16,13 +16,11 @@ class BalanceTotalTest extends TestCase
     public function setUp(): void
     {
         parent::setUp();
-
         $this->artisan('db:seed');
     }
 
     public function test_get_total_balance_account()
     {
-
         $user     = User::first();
         $token    = JWTAuth::fromUser($user);
         $response = $this->get('/api/balances?token='.$token)
@@ -33,13 +31,10 @@ class BalanceTotalTest extends TestCase
 
     public function test_get_total_balance_account_non_token()
     {
-
         $user     = User::first();
         $response = $this->get('/api/balances?token=')
-                         ->assertStatus(400)
-                         ->assertJsonStructure([
-                            'message', 'status'
-                        ]);
+                         ->assertStatus(400);
+
         $this->assertEquals($response['message'], Message::jwtException());
     }
 }
