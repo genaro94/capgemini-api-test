@@ -78,8 +78,6 @@ class AuthTest extends TestCase
         $token    = JWTAuth::fromUser($user);
 
         $response = $this->post('/api/account/logout?token='.$token, [])
-                         ->assertStatus(200);
-
-        $this->assertEquals($response['message'], Message::logoutAccount());
+                         ->assertSessionHasErrors(['value']);
     }
 }

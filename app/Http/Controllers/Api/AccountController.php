@@ -20,10 +20,7 @@ class AccountController extends Controller
     public function withdraw()
     {
         $validator = Validator::make(request()->all(), [
-            'type'         => ['required', 'integer'],
-            'agency'       => ['required', 'regex:/^([0-9\s\.\-]*)$/', 'size:6'],
-            'number'       => ['required', 'regex:/^([0-9\s\.\-]*)$/', 'size:8'],
-            'value'        => ['required', 'string'],
+            'value'        => ['required', 'integer'],
         ]);
 
         if ($validator->fails()) {
@@ -35,7 +32,7 @@ class AccountController extends Controller
             return response()->json([
                 'status'    => 400,
                 'message'   => Message::insufficientAmountForWithdraw()
-            ]);
+            ], 400);
         }
 
         try {
