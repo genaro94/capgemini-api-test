@@ -39,8 +39,8 @@ class AuthTest extends TestCase
         ])
         ->assertStatus(400);
 
-        $erroEmail = $response->decodeResponseJson()['message']['email'];
-        $this->assertEquals($erroEmail, ['O email é obrigatório.']);
+        $requireEmail = $response->decodeResponseJson()['message']['email'];
+        $this->assertEquals($requireEmail, ['O email é obrigatório.']);
     }
 
     public function test_should_return_password_error()
@@ -52,8 +52,8 @@ class AuthTest extends TestCase
         ])
         ->assertStatus(400);
 
-        $erroPassword = $response->decodeResponseJson()['message']['password'];
-        $this->assertEquals($erroPassword, ['O password é obrigatório.']);
+        $requirePassword = $response->decodeResponseJson()['message']['password'];
+        $this->assertEquals($requirePassword, ['O password é obrigatório.']);
     }
 
     public function test_should_return_password_wrong_error()
