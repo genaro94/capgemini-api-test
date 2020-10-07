@@ -127,4 +127,21 @@ class DepositTest extends TestCase
         $requiredValue = $response->decodeResponseJson()['message']['value'];
         $this->assertEquals($requiredValue, ['O value é obrigatório.']);
     }
+
+    public function test_non_account_exist()
+    {
+        $user     = User::first();
+        $account  = Account::whereUserId($user->id)->first();
+        $token    = JWTAuth::fromUser($user);
+        $response = $this->post('/api/deposits?token='.$token, [
+            'agency'       => 123,
+            'number'       => $account->number,
+            'name'         => $user->name,
+            'cpf'          => $user->cpf,
+            'value'        => 100.00,
+        ])
+        ->assertStatus(400);
+
+        $this->assertEquals($response['message'], Message::nonAccountExist());
+    }
 }
