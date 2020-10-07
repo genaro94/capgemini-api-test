@@ -61,6 +61,6 @@ class Message {
 
     public static function failedDeposit()
     {
-        return 'Erro ao tenar depositar.';
+        return 'Erro ao tentar depositar.';
     }
 }
