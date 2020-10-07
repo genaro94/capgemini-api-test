@@ -37,4 +37,22 @@ class DepositTest extends TestCase
 
         $this->assertEquals($response['message'], Message::successDeposit());
     }
+
+    public function test_agency_is_required()
+    {
+        $user     = User::first();
+        $account  = Account::whereUserId($user->id)->first();
+        $token    = JWTAuth::fromUser($user);
+        $response = $this->post('/api/deposits?token='.$token, [
+            'agency'       => null,
+            'number'       => $account->number,
+            'name'         => $user->name,
+            'cpf'          => $user->cpf,
+            'value'        => 100.00,
+        ])
+        ->assertStatus(400);
+
+        $requiredAgency = $response->decodeResponseJson()['message']['agency'];
+        $this->assertEquals($requiredAgency, ['O agency é obrigatório.']);
+    }
 }
