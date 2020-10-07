@@ -91,4 +91,22 @@ class DepositTest extends TestCase
         $requiredName = $response->decodeResponseJson()['message']['name'];
         $this->assertEquals($requiredName, ['O name é obrigatório.']);
     }
+
+    public function test_cpf_is_required()
+    {
+        $user     = User::first();
+        $account  = Account::whereUserId($user->id)->first();
+        $token    = JWTAuth::fromUser($user);
+        $response = $this->post('/api/deposits?token='.$token, [
+            'agency'       => $account->agency,
+            'number'       => $account->number,
+            'name'         => $user->name,
+            'cpf'          => null,
+            'value'        => 100.00,
+        ])
+        ->assertStatus(400);
+
+        $requiredCpf = $response->decodeResponseJson()['message']['cpf'];
+        $this->assertEquals($requiredCpf, ['O cpf é obrigatório.']);
+    }
 }
