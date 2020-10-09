@@ -12,13 +12,6 @@ class User extends Authenticatable implements JWTSubject
 {
     use Notifiable, SoftDeletes;
 
-    const PERMISSIONS = [
-        1 => 'Client',
-        2 => 'Manager',
-        3 => 'Administrator',
-        4 => 'Support'
-    ];
-
     const CLIENT        = 1;
     const MANAGER       = 2;
     const ADMINISTRATOR = 3;
@@ -38,8 +31,6 @@ class User extends Authenticatable implements JWTSubject
 
     /**
     * Get the identifier that will be stored in the subject claim of the JWT.
-    *
-    * @return mixed
     */
     public function getJWTIdentifier()
     {
@@ -48,8 +39,6 @@ class User extends Authenticatable implements JWTSubject
 
     /**
     * Return a key value array, containing any custom claims to be added to the JWT.
-    *
-    * @return array
     */
     public function getJWTCustomClaims()
     {

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
+use App\Rules\AvailabelValue;
 use App\Services\Message;
 use App\Models\Account;
 use Exception;
@@ -18,24 +19,15 @@ class AccountController extends Controller
 
     public function withdraw()
     {
-        $validator = Validator::make(request()->all(), [
-            'value'        => ['required', 'integer'],
-        ]);
-
-        if ($validator->fails()) {
-            return response()->json(['message' => $validator->errors()], 400);
-        }
-
-        if(request()->value > auth('api')->user()->getTotalBalanceAccount())
-        {
-            return response()->json(['message' => Message::insufficientAmountForWithdraw()], 400);
-        }
+        Validator::make(request()->all(), [
+            'value'        => ['required', 'integer', new AvailabelValue],
+        ])->validate();
 
         try {
             auth('api')->user()->accounts()->where('type', Account::SAVINGS)
                        ->decrement('value', request()->value);
 
-            return response()->json(['message' => Message::successWithdraw()], 200);
+            return response()->json(['message' => Message::successWithdraw()]);
 
         }
         catch(Exception $error)
@@ -46,19 +38,15 @@ class AccountController extends Controller
 
     public function deposit()
     {
-        $validator = Validator::make(request()->all(), [
+        Validator::make(request()->all(), [
             'agency'       => ['required', 'integer'],
             'number'       => ['required', 'integer'],
             'name'         => ['required', 'string'],
             'cpf'          => ['required', 'integer'],
             'value'        => ['required', 'integer'],
-        ]);
+        ])->validate();
 
-        if ($validator->fails()) {
-            return response()->json(['message' => $validator->errors()], 400);
-        }
-
-        $account = Account::searchForAccountData()->getNameFromUser()->getCpfFromUser()->first();
+        $account = Account::searchAccountByNumberAndAgency()->getNameAndCpfFromUser()->first();
 
         if(!$account)
         {
@@ -68,7 +56,7 @@ class AccountController extends Controller
         try
         {
             $account->increment('value', request()->value);
-            return response()->json(['message' => Message::successDeposit()], 200);
+            return response()->json(['message' => Message::successDeposit()]);
         }
 
         catch(Exception $error)

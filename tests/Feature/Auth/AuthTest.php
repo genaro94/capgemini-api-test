@@ -34,26 +34,22 @@ class AuthTest extends TestCase
 
     public function test_should_return_email_error()
     {
-        $response = $this->post('/api/account/login', [
+        $this->post('/api/account/login', [
             'password' => 'secret'
         ])
-        ->assertStatus(400);
-
-        $requireEmail = $response->decodeResponseJson()['message']['email'];
-        $this->assertEquals($requireEmail, ['O email é obrigatório.']);
+        ->assertStatus(302)
+        ->assertSessionHasErrors(['email']);
     }
 
     public function test_should_return_password_error()
     {
         $user     = User::first();
 
-        $response = $this->post('/api/account/login', [
+        $this->post('/api/account/login', [
             'email' => $user->email
         ])
-        ->assertStatus(400);
-
-        $requirePassword = $response->decodeResponseJson()['message']['password'];
-        $this->assertEquals($requirePassword, ['O password é obrigatório.']);
+        ->assertStatus(302)
+        ->assertSessionHasErrors(['password']);
     }
 
     public function test_should_return_password_wrong_error()
@@ -67,7 +63,7 @@ class AuthTest extends TestCase
         ->assertStatus(401);
 
         $erroPassword = $response->decodeResponseJson()['message'];
-        $this->assertEquals($erroPassword, 'E-mail e/ou senha incorretos.');
+        $this->assertEquals($erroPassword, Message::invalidAccess());
     }
 
     public function test_logout()

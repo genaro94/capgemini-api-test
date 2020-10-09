@@ -9,12 +9,6 @@ class Account extends Model
 {
     use SoftDeletes;
 
-    const TYPES = [
-        1  => 'Savings',
-        2  => 'Chain',
-        3  => 'Salary'
-    ];
-
     const SAVINGS       = 1;
     const CHAIN         = 2;
     const SALARY        = 3;
@@ -34,23 +28,17 @@ class Account extends Model
     /**
     * functions
     */
-    public function scopeSearchForAccountData($query)
+    public function scopeSearchAccountByNumberAndAgency($query)
     {
         return $query->where('number', request()->get('number'))
                      ->where('agency', request()->get('agency'));
     }
 
-    public function scopeGetNameFromUser($query)
+    public function scopeGetNameAndCpfFromUser($query)
     {
         return $query->whereHas('user', function($query){
-                return $query->where('name', 'LIKE', '%'.request()->get('name').'%');
+                return $query->where('name', 'LIKE', '%'.request()->get('name').'%')
+                             ->where('cpf', request()->get('cpf'));
             });
-    }
-
-    public function scopeGetCpfFromUser($query)
-    {
-        return $query->whereHas('user', function($query){
-            return $query->where('cpf', request()->get('cpf'));
-        });
     }
 }

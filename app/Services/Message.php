@@ -44,11 +44,6 @@ class Message {
         return 'Sucesso ao realizar o saque.';
     }
 
-    public static function insufficientAmountForWithdraw()
-    {
-        return 'O valor do saque é maior que o saldo disponível.';
-    }
-
     public static function nonAccountExist()
     {
         return 'Conta não existe em nossa base de dados.';

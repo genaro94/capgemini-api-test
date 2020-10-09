@@ -27,8 +27,7 @@ class WithdrawTest extends TestCase
         $token    = JWTAuth::fromUser($user);
         $response = $this->post('/api/withdraws?token='.$token, [
             'value' => 10.00
-        ])
-        ->assertStatus(200);
+        ])->assertStatus(200);
 
         $this->assertEquals($response['message'], Message::successWithdraw());
     }
@@ -37,22 +36,19 @@ class WithdrawTest extends TestCase
     {
         $user     = User::first();
         $token    = JWTAuth::fromUser($user);
-        $response = $this->post('/api/withdraws?token='.$token, [])
-                         ->assertStatus(400);
-
-        $requiredValue = $response->decodeResponseJson()['message']['value'];
-        $this->assertEquals($requiredValue, ['O value é obrigatório.']);
+        $this->post('/api/withdraws?token='.$token, [])
+             ->assertStatus(302)
+             ->assertSessionHasErrors(['value']);
     }
 
     public function test_value_unavailable_for_withdrawal()
     {
         $user     = User::first();
         $token    = JWTAuth::fromUser($user);
-        $response = $this->post('/api/withdraws?token='.$token, [
+        $this->post('/api/withdraws?token='.$token, [
             'value'  => 10000000.00
         ])
-        ->assertStatus(400);
-
-        $this->assertEquals($response['message'], Message::insufficientAmountForWithdraw());
+        ->assertStatus(302)
+        ->assertSessionHasErrors(['value']);
     }
 }

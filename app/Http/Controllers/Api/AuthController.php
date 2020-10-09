@@ -11,15 +11,10 @@ class AuthController extends Controller
 {
     public function login() {
 
-        $validator = Validator::make(request()->all(), [
+        Validator::make(request()->all(), [
             'email'              => 'required|string',
             'password'           => 'required|string',
-        ]);
-
-        if ($validator->fails())
-        {
-            return response()->json(['message' => $validator->errors()], 400);
-        }
+        ])->validate();
 
         if (!$token  = auth('api')->attempt(request()->all()))
         {
