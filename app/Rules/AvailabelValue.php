@@ -15,6 +15,6 @@ class AvailabelValue implements Rule
 
     public function message()
     {
-        return 'O valor do saque precisar ser menor que o saldo disponível.';
+        return 'O valor do saque precisar ser menor ou igual ao saldo disponível.';
     }
 }
