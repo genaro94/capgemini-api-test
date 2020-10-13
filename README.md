@@ -1,61 +1,232 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400"></a></p>
+# API DOCUMENTATION
 
-<p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/d/total.svg" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/v/stable.svg" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/license.svg" alt="License"></a>
-</p>
+The Capgemini project aims to simulate some transactions (balance, deposit and withdrawal) in a bank customer's current account.
 
-## About Laravel
+After downloading or cloning the project, you must take the following steps to get the API ready for use.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## Install Dependencies
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+```
+composer install
+```
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+## Generate Key For The .env File
 
-## Learning Laravel
+```
+php artisan key:generate
+```
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+## Change database.sqlite File Path
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 1500 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+You must change the .env DB_DATABASE path
 
-## Laravel Sponsors
+DB_CONNECTION=sqlite
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+```
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=C:/wamp64/www/GitHub/capgemini-api/database/database.sqlite
+DB_USERNAME=
+DB_PASSWORD=
+```
 
-### Premium Partners
+Where are
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[OP.GG](https://op.gg)**
+```
+DB_DATABASE=C:/wamp64/www/GitHub/capgemini-api/database/database.sqlite
+```
 
-## Contributing
+where is the complete path of the project to the file.
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+## Popular The Database
 
-## Code of Conduct
+```
+php artisan migrate:refresh --seed
+```
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+## Launch Application
 
-## Security Vulnerabilities
+```
+php artisan serve
+```
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+## User And Test Account
 
-## License
+```
+User:
+    "name"     : "Client Test",
+    "email"    : "user@email.com",
+    "password" : "secret",
+    "cpf"      : "12345678901",
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+Account:
+    "number"   : 123456,
+    "agency"   : 12345
+```
+
+## Login Route
+
+<table>
+	<thead>
+		<th>Description</th>
+		<th>Method</th>
+		<th>Url</th>
+		<th>QueryString</th>
+		<th>Body</th>
+		<th>Response</th>
+	</thead>
+	<tbody>	
+		<tr>
+			<td>Accest account</td>
+			<td>POST</td>
+			<td>api/account/login</td>
+			<td>none</td>
+			<td>
+            <pre>
+                "email":"user@email.com",
+                "password":"secret"
+            </pre>
+            </td>
+			<td>
+            <pre>
+                "token":"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjIsImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3Q6ODAwMC9hcGkvYWNjb3VudC9sb2dpbiIsImlhdCI6MTU4MDY1NzgyNSwiZXhwIjoxNTgwNjYxNDI1LCJuYmYiOjE1ODA2NTc4MjUsImp0aSI6IkRMeFd6RmxuWUVnbXhINFAifQ. _1kvva48YybqYHMpTH34Gt-lI30cIVq1qyGRtfm5De8"
+            </pre>
+			</td>
+		</tr>			
+	</tbody>
+</table>
+
+## Details Of A User
+
+<table>
+	<thead>
+		<th>Description</th>
+		<th>Method</th>
+		<th>Url</th>
+		<th>QueryString</th>
+		<th>Body</th>
+		<th>Response</th>
+	</thead>
+	<tbody>	
+		<tr>
+			<td>Details user</td>
+			<td>GET</td>
+			<td>api/users/details</td>
+			<td>none</td>
+			<td>none</td>
+			<td>
+            <pre>
+            "user": {
+                "id": 1,
+                "name": "Client Test",
+                "email": "user@email.com",
+                "email_verified_at": "2020-10-13T02:30:17.000000Z",
+                "cpf": "12345678901",
+                "phone": "35085830527",
+                "profile_id": "1",
+                "deleted_at": null,
+                "created_at": "2020-10-13T02:30:17.000000Z",
+                "updated_at": "2020-10-13T02:30:17.000000Z"
+            }
+            </pre>
+			</td>
+		</tr>			
+	</tbody>
+</table>
+
+## Account Balance
+
+<table>
+	<thead>
+		<th>Description</th>
+		<th>Method</th>
+		<th>Url</th>
+		<th>QueryString</th>
+		<th>Body</th>
+		<th>Response</th>
+	</thead>
+	<tbody>	
+		<tr>
+			<td>Account balance</td>
+			<td>GET</td>
+			<td>api/balances</td>
+			<td>none</td>
+			<td>none</td>
+			<td>
+            <pre>
+            "balance": 403
+            </pre>
+			</td>
+		</tr>			
+	</tbody>
+</table>
+
+## Deposit To Account
+
+<table>
+	<thead>
+		<th>Description</th>
+		<th>Method</th>
+		<th>Url</th>
+		<th>QueryString</th>
+		<th>Body</th>
+		<th>Response</th>
+	</thead>
+	<tbody>	
+		<tr>
+			<td>Deposit to account</td>
+			<td>POST</td>
+			<td>api/deposits</td>
+			<td>none</td>
+			<td>
+                <pre>
+                	"agency": 12345,
+                	"number":123456,
+                	"name":"Client Test",
+                	"cpf":12345678901,
+                	"value":100
+                </pre>
+            </td>
+			<td>
+            <pre>
+            "message": "Deposito realizado com sucesso."
+            </pre>
+			</td>
+		</tr>			
+	</tbody>
+</table>
+
+## Withdraw From Account
+
+<table>
+	<thead>
+		<th>Description</th>
+		<th>Method</th>
+		<th>Url</th>
+		<th>QueryString</th>
+		<th>Body</th>
+		<th>Response</th>
+	</thead>
+	<tbody>	
+		<tr>
+			<td>Withdraw from account</td>
+			<td>POST</td>
+			<td>api/withdraws</td>
+			<td>none</td>
+			<td>
+                <pre>
+                    "value":100
+                </pre>
+            </td>
+			<td>
+            <pre>
+            "message": "Sucesso ao realizar o saque."
+            </pre>
+			</td>
+		</tr>			
+	</tbody>
+</table>
+
+## Front End Project
+
+To perform the same tests but with the visual part. See the [Capgemini Front](https://github.com/genaro94/capgemini-front-test)
