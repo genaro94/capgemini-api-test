@@ -58,4 +58,14 @@ class Message {
     {
         return 'Erro ao tentar depositar.';
     }
+
+    public static function failedGetBalance()
+    {
+        return 'Ocorreu algum erro ao tentar obter o saldo.';
+    }
+
+    public static function failedUserDetails()
+    {
+        return 'Ocorreu algum erro ao tentar obter os dados do usuário';
+    }
 }

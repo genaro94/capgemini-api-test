@@ -14,7 +14,12 @@ class AccountController extends Controller
 {
     public function balance()
     {
-        return response()->json(['balance' => auth('api')->user()->getTotalBalanceAccount()]);
+        try{
+            return response()->json(['balance' => auth('api')->user()->getTotalBalanceAccount()]);
+        }
+        catch(Exception $error){
+            return response()->json(['message' => Message::failedGetBalance()], 500);
+        }
     }
 
     public function withdraw()

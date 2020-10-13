@@ -21,7 +21,9 @@ class AuthController extends Controller
             return response()->json(['message' => Message::invalidAccess()], 401);
         }
 
-        return response()->json(['token'  => $token], 200);
+        return response()->json([
+            'token'  => $token
+        ], 200);
     }
 
     public function logout(){
