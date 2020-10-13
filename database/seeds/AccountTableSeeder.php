@@ -15,7 +15,7 @@ class AccountTableSeeder extends Seeder
     public function createUserAccounDefault()
     {
         $user = factory(User::class)->create([
-            'name'        => 'Genaro Figueiredo',
+            'name'        => 'Client Test',
             'email'       => 'user@email.com',
             'profile_id'  => User::CLIENT,
             'cpf'         => 12345678901
