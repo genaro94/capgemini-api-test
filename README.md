@@ -1,6 +1,6 @@
 # API DOCUMENTATION
 
-The Capgemini project aims to simulate some transactions (balance, deposit and withdrawal) in a bank customer's current account.
+The objective of Capgemini project is to simulate some transactions like balance, deposit, and withdraw in a bank customer of current account.
 
 After downloading or cloning the project, you must take the following steps to get the API ready for use.
 
